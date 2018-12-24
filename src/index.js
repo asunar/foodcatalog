@@ -5,7 +5,7 @@ import "./index.css";
 class FoodCatalog extends React.Component {
   render() {
     return (
-      <div className="container">
+      <div className="card-columns">
         <FoodCardRow foods={this.props.foods} />
       </div>
     );
@@ -16,9 +16,9 @@ class FoodCardRow extends React.Component {
   render() {
     const foods = this.props.foods;
     return (
-      <div className="row">
+      <div>
         {foods.map(foodItem => (
-          <FoodCard key="1" food={foodItem} />
+          <FoodCard key={foodItem.key} food={foodItem} />
         ))}
       </div>
     );
@@ -29,15 +29,29 @@ class FoodCard extends React.Component {
   render() {
     const { category, name, quantity, weight, description } = this.props.food;
     return (
-      <div className="col" style={{ backgroundColor: "#bfe0bf" }}>
-        <img src="/images/tomato.png" alt="tomato" />
-        <div className="text" />
-        <span className="badge badge-pill badge-primary">{category}</span>
-        <h3>{name}</h3>
-        <div>
-          {quantity} - {weight}
+      <div className="card" style={{ backgroundColor: "#bfe0bf" }}>
+        <img src={`/images/${name}.png`} alt={name} className="card-img-top" />
+        <div className="card-body">
+          <span className="badge badge-pill badge-primary category">
+            {category}
+          </span>
+          <h5 className="card-title foodTitle">{name}</h5>
+          <table>
+            <thead>
+              <tr>
+                <th className="categoryTableHeader">QUANTITY</th>
+                <th className="categoryTableHeader">WEIGHT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="categoryTableRow">
+                <td>{quantity}pcs</td>
+                <td>{weight}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="card-text foodDescription">{description}</p>
         </div>
-        <div>{description}</div>
       </div>
     );
   }
@@ -45,11 +59,51 @@ class FoodCard extends React.Component {
 const FOODS = [
   {
     key: 1,
-    category: "Vegetables",
+    category: "VEGETABLES",
     name: "Tomato",
     quantity: 2,
     weight: "3g",
-    description: "I am a tomato"
+    description: "The quick brown fox jumps over the lazy dog"
+  },
+  {
+    key: 4,
+    category: "FISH",
+    name: "Salmon",
+    quantity: 5,
+    weight: "6g",
+    description: "The quick brown fox jumps over the lazy dog"
+  },
+  {
+    key: 2,
+    category: "VEGETABLES",
+    name: "Cabbage",
+    quantity: 3,
+    weight: "10g",
+    description: "The quick brown fox jumps over the lazy dog"
+  },
+  {
+    key: 5,
+    category: "VEGETABLES",
+    name: "Carrot",
+    quantity: 4,
+    weight: "7g",
+    description: "The quick brown fox jumps over the lazy dog"
+  },
+  {
+    key: 3,
+    category: "VEGETABLES",
+    name: "onion",
+    quantity: 4,
+    weight: "5g",
+    description: "The quick brown fox jumps over the lazy dog"
+  },
+  {
+    key: 6,
+    category: "MEAT",
+    name: "Pork",
+    quantity: 6,
+    weight: "7g",
+    description: "The quick brown fox jumps over the lazy dog"
   }
 ];
 

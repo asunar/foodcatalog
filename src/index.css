@@ -23,3 +23,33 @@
   width: 100%;
   }
   */
+
+.category {
+    background-color: rgb(31, 70, 106);
+    padding: .6em;
+    min-width: 50px;
+    font-size: 60.1%;
+    font-weight: normal
+}
+
+.foodTitle {
+    color: #1f466a;
+    font-size: 2.05rem;
+}
+
+.categoryTableHeader {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding-right: 10px;
+}
+
+.categoryTableRow {
+    font-weight: bold;
+    color: rgb(31, 70, 106); 
+    font-size: large
+}
+
+.foodDescription {
+    font-size: smaller;
+}
+  
