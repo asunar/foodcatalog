@@ -29,9 +29,9 @@ class FoodCard extends React.Component {
   render() {
     const { category, name, quantity, weight, description } = this.props.food;
     return (
-      <div className="card" style={{ backgroundColor: "#bfe0bf" }}>
+      <div className="card">
         <img src={`/images/${name}.png`} alt={name} className="card-img-top" />
-        <div className="card-body">
+        <div className="card-body foodCard">
           <span className="badge badge-pill badge-primary category">
             {category}
           </span>

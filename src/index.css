@@ -25,11 +25,19 @@
   */
 
 .category {
-    background-color: rgb(31, 70, 106);
+    background-color: rgb(31, 70, 106); /* TODO: Sass variables */
     padding: .6em;
     min-width: 50px;
     font-size: 60.1%;
     font-weight: normal
+}
+
+.foodCard {
+    background-color: rgb(213, 239, 167);
+}
+
+.foodCard:hover {
+    filter: invert(100%); /* TODO: match colors time permitting */
 }
 
 .foodTitle {
