@@ -2,11 +2,38 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
+class FoodFilter extends React.Component {
+  render() {
+    return (
+      <div style={{ paddingTop: "30px" }}>
+        <table
+          className="table table-bordered"
+          style={{ backgroundColor: "white" }}
+        >
+          <thead>
+            <tr>
+              <td>Filter By</td>
+              <td>Product</td>
+              <td>Category</td>
+              <td>Color</td>
+              <td>Clear Selection</td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    );
+  }
+}
+
 class FoodCatalog extends React.Component {
   render() {
     return (
-      <div className="card-columns">
-        <FoodCardRow foods={this.props.foods} />
+      <div>
+        <FoodFilter />
+
+        <div className="card-columns">
+          <FoodCardRow foods={this.props.foods} />
+        </div>
       </div>
     );
   }
