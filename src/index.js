@@ -1,88 +1,58 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import FoodFilter from "./components/FoodFilter.js";
 import "./index.css";
 
-class FoodFilter extends React.Component {
-  render() {
-    return (
-      <div style={{ paddingTop: "30px" }}>
-        <table
-          className="table table-bordered"
-          style={{ backgroundColor: "white" }}
-        >
+const FoodCatalog = props => (
+  <div>
+    <FoodFilter />
+
+    <div className="card-columns">
+      <FoodCardRow foods={props.foods} />
+    </div>
+  </div>
+);
+
+const FoodCardRow = props => {
+  const foods = props.foods;
+  return (
+    <div>
+      {foods.map(foodItem => (
+        <FoodCard key={foodItem.key} food={foodItem} />
+      ))}
+    </div>
+  );
+};
+
+const FoodCard = props => {
+  const { category, name, quantity, weight, description } = props.food;
+  return (
+    <div className="card">
+      <img src={`/images/${name}.png`} alt={name} className="card-img-top" />
+      <div className="card-body foodCard">
+        <span className="badge badge-pill badge-primary category">
+          {category}
+        </span>
+        <h5 className="card-title foodTitle">{name}</h5>
+        <table>
           <thead>
             <tr>
-              <td>Filter By</td>
-              <td>Product</td>
-              <td>Category</td>
-              <td>Color</td>
-              <td>Clear Selection</td>
+              <th className="categoryTableHeader">QUANTITY</th>
+              <th className="categoryTableHeader">WEIGHT</th>
             </tr>
           </thead>
+          <tbody>
+            <tr className="categoryTableRow">
+              <td>{quantity}pcs</td>
+              <td>{weight}</td>
+            </tr>
+          </tbody>
         </table>
+        <p className="card-text foodDescription">{description}</p>
       </div>
-    );
-  }
-}
-
-class FoodCatalog extends React.Component {
-  render() {
-    return (
-      <div>
-        <FoodFilter />
-
-        <div className="card-columns">
-          <FoodCardRow foods={this.props.foods} />
-        </div>
-      </div>
-    );
-  }
-}
-
-class FoodCardRow extends React.Component {
-  render() {
-    const foods = this.props.foods;
-    return (
-      <div>
-        {foods.map(foodItem => (
-          <FoodCard key={foodItem.key} food={foodItem} />
-        ))}
-      </div>
-    );
-  }
-}
-
-class FoodCard extends React.Component {
-  render() {
-    const { category, name, quantity, weight, description } = this.props.food;
-    return (
-      <div className="card">
-        <img src={`/images/${name}.png`} alt={name} className="card-img-top" />
-        <div className="card-body foodCard">
-          <span className="badge badge-pill badge-primary category">
-            {category}
-          </span>
-          <h5 className="card-title foodTitle">{name}</h5>
-          <table>
-            <thead>
-              <tr>
-                <th className="categoryTableHeader">QUANTITY</th>
-                <th className="categoryTableHeader">WEIGHT</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="categoryTableRow">
-                <td>{quantity}pcs</td>
-                <td>{weight}</td>
-              </tr>
-            </tbody>
-          </table>
-          <p className="card-text foodDescription">{description}</p>
-        </div>
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 const FOODS = [
   {
     key: 1,
