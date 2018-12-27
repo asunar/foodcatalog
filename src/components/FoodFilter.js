@@ -1,28 +1,27 @@
 import React from "react";
-import "./filterItem.css";
+import Picky from "react-picky";
+import "react-picky/dist/picky.css"; // Include CSS
 
 export default class FoodFilter extends React.Component {
   render() {
     return (
       <div style={{ paddingTop: "30px" }}>
-        <table
-          id="filterTable"
-          className="table table-bordered"
-          style={{ backgroundColor: "white" }}
-        >
+        <table className="table table-bordered">
           <thead>
             <tr>
-              <td>Filter By</td>
-              <td>
-                <FoodFilterItem title="Product" />
-              </td>
-              <td>
-                <FoodFilterItem title="Category" />
-              </td>
-              <td>
-                <FoodFilterItem title="Color" />
-              </td>
-              <td>Clear Selection</td>
+              <th style={{ width: "10%" }}>Filter By</th>
+              <th>
+                <FoodFilterItem title="Product" items={this.props.products} />
+              </th>
+              <th>
+                <FoodFilterItem
+                  title="Category"
+                  items={this.props.categories}
+                />
+              </th>
+              <th>
+                <FoodFilterItem title="Color" items={this.props.colors} />
+              </th>
             </tr>
           </thead>
         </table>
@@ -34,68 +33,38 @@ export default class FoodFilter extends React.Component {
 class FoodFilterItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isChecked: false };
-
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      value: null,
+      arrayValue: []
+    };
+    this.selectMultipleOption = this.selectMultipleOption.bind(this);
   }
 
-  handleClick(evt) {
-    this.setState(state => ({
-      isChecked: !state.isChecked
-    }));
+  selectMultipleOption(value) {
+    console.log("Val", value);
+    this.setState({ arrayValue: value });
   }
 
   render() {
-    const divStyle = {
-      backgroundColor: "red"
-    };
-
-    const id = `${this.props.title}Filter`;
     return (
-      <div>
-        <div
-          id={id}
-          className="dropdown-check-list"
-          style={divStyle}
-          tabIndex="100"
-        >
-          <span className="anchor" onClick={this.handleClick}>
-            {this.props.title}
-          </span>
-          <ul
-            id="items"
-            className="items"
-            style={{ display: this.state.isChecked ? "inline" : "none" }}
-          >
-            <li>
-              <input type="checkbox" />
-              Apple
-            </li>
-            <li>
-              <input type="checkbox" />
-              Orange
-            </li>
-            <li>
-              <input type="checkbox" />
-              Grapes
-            </li>
-            <li>
-              <input type="checkbox" />
-              Berry
-            </li>
-            <li>
-              <input type="checkbox" />
-              Mango
-            </li>
-            <li>
-              <input type="checkbox" />
-              Banana
-            </li>
-            <li>
-              <input type="checkbox" />
-              Tomato
-            </li>
-          </ul>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <Picky
+              placeholder={this.props.title}
+              value={this.state.arrayValue}
+              options={this.props.items}
+              onChange={this.selectMultipleOption}
+              valueKey="id"
+              labelKey="name"
+              multiple={true}
+              includeSelectAll={false}
+              includeFilter={false}
+              manySelectedPlaceholder={this.props.title}
+              allSelectedPlaceholder={this.props.title}
+              numberDisplayed={0}
+            />
+          </div>
         </div>
       </div>
     );

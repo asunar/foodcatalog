@@ -5,7 +5,11 @@ import "./index.css";
 
 const FoodCatalog = props => (
   <div>
-    <FoodFilter />
+    <FoodFilter
+      products={uniqueProductList}
+      categories={uniqueCategoryList}
+      colors={uniqueColorList}
+    />
 
     <div className="card-columns">
       <FoodCardRow foods={props.foods} />
@@ -60,7 +64,8 @@ const FOODS = [
     name: "Tomato",
     quantity: 2,
     weight: "3g",
-    description: "The quick brown fox jumps over the lazy dog"
+    description: "The quick brown fox jumps over the lazy dog",
+    color: "Red"
   },
   {
     key: 4,
@@ -68,7 +73,8 @@ const FOODS = [
     name: "Salmon",
     quantity: 5,
     weight: "6g",
-    description: "The quick brown fox jumps over the lazy dog"
+    description: "The quick brown fox jumps over the lazy dog",
+    color: "Orange"
   },
   {
     key: 2,
@@ -76,7 +82,8 @@ const FOODS = [
     name: "Cabbage",
     quantity: 3,
     weight: "10g",
-    description: "The quick brown fox jumps over the lazy dog"
+    description: "The quick brown fox jumps over the lazy dog",
+    color: "Green"
   },
   {
     key: 5,
@@ -84,15 +91,17 @@ const FOODS = [
     name: "Carrot",
     quantity: 4,
     weight: "7g",
-    description: "The quick brown fox jumps over the lazy dog"
+    description: "The quick brown fox jumps over the lazy dog",
+    color: "Orange"
   },
   {
     key: 3,
     category: "VEGETABLES",
-    name: "onion",
+    name: "Onion",
     quantity: 4,
     weight: "5g",
-    description: "The quick brown fox jumps over the lazy dog"
+    description: "The quick brown fox jumps over the lazy dog",
+    color: "Pink"
   },
   {
     key: 6,
@@ -100,8 +109,13 @@ const FOODS = [
     name: "Pork",
     quantity: 6,
     weight: "7g",
-    description: "The quick brown fox jumps over the lazy dog"
+    description: "The quick brown fox jumps over the lazy dog",
+    color: "Pink"
   }
 ];
+
+const uniqueProductList = Array.from(new Set(FOODS.map(x => x.name)));
+const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
+const uniqueColorList = Array.from(new Set(FOODS.map(x => x.color)));
 
 ReactDOM.render(<FoodCatalog foods={FOODS} />, document.getElementById("root"));
