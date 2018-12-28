@@ -47,25 +47,34 @@ class FoodFilterItem extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <Picky
-              placeholder={this.props.title}
-              value={this.state.arrayValue}
-              options={this.props.items}
-              onChange={this.selectMultipleOption}
-              valueKey="id"
-              labelKey="name"
-              multiple={true}
-              includeSelectAll={false}
-              includeFilter={false}
-              manySelectedPlaceholder={this.props.title}
-              allSelectedPlaceholder={this.props.title}
-              numberDisplayed={0}
-            />
-          </div>
-        </div>
+      <div>
+        <span
+          className="badge badge-warning"
+          style={{
+            backgroundColor: "yellow",
+            position: "relative",
+            top: "10px",
+            left: "85%",
+            visibility: this.state.arrayValue.length ? "visible" : "hidden",
+            zIndex: 99
+          }}
+        >
+          {this.state.arrayValue.length}
+        </span>
+        <Picky
+          placeholder={this.props.title}
+          value={this.state.arrayValue}
+          options={this.props.items}
+          onChange={this.selectMultipleOption}
+          valueKey="id"
+          labelKey="name"
+          multiple={true}
+          includeSelectAll={false}
+          includeFilter={false}
+          manySelectedPlaceholder={this.props.title}
+          allSelectedPlaceholder={this.props.title}
+          numberDisplayed={0}
+        />
       </div>
     );
   }
