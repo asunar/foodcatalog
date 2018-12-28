@@ -9,17 +9,17 @@ export default class FoodFilter extends React.Component {
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th style={{ width: "10%" }}>Filter By</th>
-              <th>
+              <th style={{ width: "10%", padding: "0" }}>Filter By</th>
+              <th style={{ padding: "0", width: "30%" }}>
                 <FoodFilterItem title="Product" items={this.props.products} />
               </th>
-              <th>
+              <th style={{ padding: "0", width: "30%" }}>
                 <FoodFilterItem
                   title="Category"
                   items={this.props.categories}
                 />
               </th>
-              <th>
+              <th style={{ padding: "0", width: "30%" }}>
                 <FoodFilterItem title="Color" items={this.props.colors} />
               </th>
             </tr>
@@ -55,6 +55,7 @@ class FoodFilterItem extends React.Component {
             position: "relative",
             top: "10px",
             left: "85%",
+            //display: "block",
             visibility: this.state.arrayValue.length ? "visible" : "hidden",
             zIndex: 99
           }}
