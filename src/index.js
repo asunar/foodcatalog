@@ -11,6 +11,7 @@ const FoodCatalog = props => (
       colors={uniqueColorList}
     />
 
+    <div style={{ paddingTop: "5%" }}>All Products</div>
     <div className="card-columns">
       <FoodCardRow foods={props.foods} />
     </div>
