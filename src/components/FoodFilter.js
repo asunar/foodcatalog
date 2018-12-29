@@ -5,26 +5,47 @@ import "react-picky/dist/picky.css"; // Include CSS
 export default class FoodFilter extends React.Component {
   render() {
     return (
-      <div style={{ paddingTop: "30px" }}>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th style={{ width: "10%", padding: "0" }}>Filter By</th>
-              <th style={{ padding: "0", width: "30%" }}>
-                <FoodFilterItem title="Product" items={this.props.products} />
-              </th>
-              <th style={{ padding: "0", width: "30%" }}>
-                <FoodFilterItem
-                  title="Category"
-                  items={this.props.categories}
-                />
-              </th>
-              <th style={{ padding: "0", width: "30%" }}>
-                <FoodFilterItem title="Color" items={this.props.colors} />
-              </th>
-            </tr>
-          </thead>
-        </table>
+      <div style={{ paddingTop: "3%" }}>
+        <div
+          style={{
+            display: "flex",
+            backgroundColor: "white",
+            verticalAlign: "middle"
+          }}
+        >
+          <div
+            style={{
+              width: "10%",
+              lineHeight: "400%",
+              color: "rgb(184, 184, 184)",
+              paddingLeft: "2%",
+              fontSize: "larger"
+            }}
+          >
+            Filter By
+          </div>
+          <div style={{ width: "20%" }}>
+            <FoodFilterItem title="Product" items={this.props.products} />
+          </div>
+          <div style={{ width: "20%" }}>
+            <FoodFilterItem title="Category" items={this.props.categories} />
+          </div>
+          <div style={{ width: "20%" }}>
+            <FoodFilterItem title="Color" items={this.props.colors} />
+          </div>
+          <div
+            style={{
+              flexGrow: "1",
+              lineHeight: "400%",
+              color: "rgb(32, 156, 234)",
+              textAlign: "right",
+              fontSize: "larger",
+              paddingRight: "2%"
+            }}
+          >
+            Clear Selection
+          </div>
+        </div>
       </div>
     );
   }
