@@ -3,6 +3,28 @@ import Picky from "react-picky";
 import "react-picky/dist/picky.css"; // Include CSS
 
 export default class FoodFilter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedFilters: {
+        Product: [],
+        Category: [],
+        Color: []
+      }
+    };
+    this.filterUpdatedHandler = this.filterUpdatedHandler.bind(this);
+  }
+
+  filterUpdatedHandler(title, selectedFilters) {
+    console.log(title);
+    console.log(selectedFilters);
+
+    const currentFilters = this.state.selectedFilters;
+    currentFilters[title] = selectedFilters;
+
+    this.setState({ selectedFilters: currentFilters });
+  }
+
   render() {
     return (
       <div style={{ paddingTop: "3%" }}>
@@ -25,13 +47,25 @@ export default class FoodFilter extends React.Component {
             Filter By
           </div>
           <div style={{ width: "20%" }}>
-            <FoodFilterItem title="Product" items={this.props.products} />
+            <FoodFilterItem
+              title="Product"
+              items={this.props.products}
+              filterUpdatedHandler={this.filterUpdatedHandler}
+            />
           </div>
           <div style={{ width: "20%" }}>
-            <FoodFilterItem title="Category" items={this.props.categories} />
+            <FoodFilterItem
+              title="Category"
+              items={this.props.categories}
+              filterUpdatedHandler={this.filterUpdatedHandler}
+            />
           </div>
           <div style={{ width: "20%" }}>
-            <FoodFilterItem title="Color" items={this.props.colors} />
+            <FoodFilterItem
+              title="Color"
+              items={this.props.colors}
+              filterUpdatedHandler={this.filterUpdatedHandler}
+            />
           </div>
           <div
             style={{
@@ -62,8 +96,8 @@ class FoodFilterItem extends React.Component {
   }
 
   selectMultipleOption(value) {
-    console.log("Val", value);
     this.setState({ arrayValue: value });
+    this.props.filterUpdatedHandler(this.props.title, value);
   }
 
   render() {
