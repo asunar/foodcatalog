@@ -16,9 +16,6 @@ export default class FoodFilter extends React.Component {
   }
 
   filterUpdatedHandler(title, selectedFilters) {
-    console.log(title);
-    console.log(selectedFilters);
-
     const currentFilters = this.state.selectedFilters;
     currentFilters[title] = selectedFilters;
 
