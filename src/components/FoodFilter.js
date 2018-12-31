@@ -54,6 +54,7 @@ export default class FoodFilter extends React.Component {
             Filter By
           </div>
           <div style={{ width: "20%" }}>
+            {/* TODO: Pass filter items product, category and color as props */}
             <FoodFilterItem
               title="Product"
               items={this.props.products}

@@ -109,6 +109,7 @@ const FOODS = [
   }
 ];
 
+// TODO: Optimize (iterate once)
 const uniqueProductList = Array.from(new Set(FOODS.map(x => x.name)));
 const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
 const uniqueColorList = Array.from(new Set(FOODS.map(x => x.color)));
