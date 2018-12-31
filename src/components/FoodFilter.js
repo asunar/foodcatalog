@@ -6,13 +6,18 @@ export default class FoodFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedFilters: {
-        Product: [],
-        Category: [],
-        Color: []
-      }
+      selectedFilters: this.getFiltersStartingState()
     };
     this.filterUpdatedHandler = this.filterUpdatedHandler.bind(this);
+    this.clearSelection = this.clearSelection.bind(this);
+  }
+
+  getFiltersStartingState() {
+    return {
+      Product: [],
+      Category: [],
+      Color: []
+    };
   }
 
   filterUpdatedHandler(title, selectedFilters) {
@@ -20,6 +25,11 @@ export default class FoodFilter extends React.Component {
     currentFilters[title] = selectedFilters;
 
     this.setState({ selectedFilters: currentFilters });
+  }
+
+  clearSelection() {
+    console.log("Clearing selection");
+    this.setState({ selectedFilters: this.getFiltersStartingState() });
   }
 
   render() {
@@ -48,6 +58,7 @@ export default class FoodFilter extends React.Component {
               title="Product"
               items={this.props.products}
               filterUpdatedHandler={this.filterUpdatedHandler}
+              selectedItems={this.state.selectedFilters.Product}
             />
           </div>
           <div style={{ width: "20%" }}>
@@ -55,6 +66,7 @@ export default class FoodFilter extends React.Component {
               title="Category"
               items={this.props.categories}
               filterUpdatedHandler={this.filterUpdatedHandler}
+              selectedItems={this.state.selectedFilters.Category}
             />
           </div>
           <div style={{ width: "20%" }}>
@@ -62,6 +74,7 @@ export default class FoodFilter extends React.Component {
               title="Color"
               items={this.props.colors}
               filterUpdatedHandler={this.filterUpdatedHandler}
+              selectedItems={this.state.selectedFilters.Color}
             />
           </div>
           <div
@@ -73,6 +86,7 @@ export default class FoodFilter extends React.Component {
               fontSize: "larger",
               paddingRight: "2%"
             }}
+            onClick={() => this.clearSelection()}
           >
             Clear Selection
           </div>
@@ -85,15 +99,10 @@ export default class FoodFilter extends React.Component {
 class FoodFilterItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: null,
-      arrayValue: []
-    };
     this.selectMultipleOption = this.selectMultipleOption.bind(this);
   }
 
   selectMultipleOption(value) {
-    this.setState({ arrayValue: value });
     this.props.filterUpdatedHandler(this.props.title, value);
   }
 
@@ -107,16 +116,15 @@ class FoodFilterItem extends React.Component {
             position: "relative",
             top: "10px",
             left: "85%",
-            //display: "block",
-            visibility: this.state.arrayValue.length ? "visible" : "hidden",
+            visibility: this.props.selectedItems.length ? "visible" : "hidden",
             zIndex: 99
           }}
         >
-          {this.state.arrayValue.length}
+          {this.props.selectedItems.length}
         </span>
         <Picky
           placeholder={this.props.title}
-          value={this.state.arrayValue}
+          value={this.props.selectedItems}
           options={this.props.items}
           onChange={this.selectMultipleOption}
           valueKey="id"
