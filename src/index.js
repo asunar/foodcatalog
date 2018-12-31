@@ -3,28 +3,22 @@ import ReactDOM from "react-dom";
 import FoodFilter from "./components/FoodFilter.js";
 import "./index.css";
 
-const FoodCatalog = props => (
-  <div>
-    <FoodFilter
-      products={uniqueProductList}
-      categories={uniqueCategoryList}
-      colors={uniqueColorList}
-    />
-
-    <div style={{ paddingTop: "5%" }}>All Products</div>
-    <div className="card-columns">
-      <FoodCardRow foods={props.foods} />
-    </div>
-  </div>
-);
-
-const FoodCardRow = props => {
+const FoodCatalog = props => {
   const foods = props.foods;
   return (
     <div>
-      {foods.map(foodItem => (
-        <FoodCard key={foodItem.key} food={foodItem} />
-      ))}
+      <FoodFilter
+        products={uniqueProductList}
+        categories={uniqueCategoryList}
+        colors={uniqueColorList}
+      />
+
+      <div style={{ paddingTop: "5%" }}>All Products</div>
+      <div className="card-columns">
+        {foods.map(foodItem => (
+          <FoodCard key={foodItem.key} food={foodItem} />
+        ))}
+      </div>
     </div>
   );
 };
