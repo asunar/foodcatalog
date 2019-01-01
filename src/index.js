@@ -3,25 +3,94 @@ import ReactDOM from "react-dom";
 import FoodFilter from "./components/FoodFilter.js";
 import "./index.css";
 
-const FoodCatalog = props => {
-  const foods = props.foods;
-  return (
-    <div>
-      <FoodFilter
-        products={uniqueProductList}
-        categories={uniqueCategoryList}
-        colors={uniqueColorList}
-      />
+class FoodCatalogViewSelector extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedFilters: {
+        Product: [],
+        Category: [],
+        Color: ["orange"]
+      }
+    };
+    this.isFiltered = this.isFiltered.bind(this);
+    this.matchingProducts = this.matchingProducts.bind(this);
+  }
+  isFiltered(selectedFilters) {
+    return Object.keys(selectedFilters) //Iterate over each property (Category, Color, Product)
+      .map(x => selectedFilters[x]) //Get filter value for each property
+      .some(x => x.length > 0); //Check if any filter array is not empty.
+  }
 
-      <div style={{ paddingTop: "5%" }}>All Products</div>
-      <div className="card-columns">
-        {foods.map(foodItem => (
-          <FoodCard key={foodItem.key} food={foodItem} />
-        ))}
+  isFilterTypeSelected(filterType, selectedFilters) {
+    return selectedFilters[filterType].length > 0;
+  }
+
+  matchingProducts(selectedFilters) {
+    const isProductFilter = selectedFilters.Product.length > 0;
+    const isCategoryFilter = selectedFilters.Category.length > 0;
+    const isColorFilter = selectedFilters.Color.length > 0;
+
+    selectedFilters.Category = selectedFilters.Category.map(x =>
+      x.toLowerCase()
+    );
+
+    selectedFilters.Color = selectedFilters.Color.map(x => x.toLowerCase());
+
+    return FOODS.filter(
+      x =>
+        (!isProductFilter || selectedFilters.Product.includes(x.name)) && //name filter
+        (!isCategoryFilter ||
+          selectedFilters.Category.includes(x.category.toLowerCase())) && //category filter
+        (!isColorFilter ||
+          selectedFilters.Color.includes(x.color.toLowerCase()))
+    );
+  }
+
+  render() {
+    const isFiltered = this.isFiltered(this.state.selectedFilters);
+
+    if (!isFiltered) {
+      return <FoodCatalog foods={FOODS} />;
+    } else {
+      return (
+        <FilteredFoodCatalog
+          matchingProducts={this.matchingProducts(this.state.selectedFilters)}
+        />
+      );
+    }
+  }
+}
+
+const FilteredFoodCatalog = props => (
+  <div>
+    {props.matchingProducts.map(x => (
+      <p key={x.name}>{`${x.category + " - " + x.name}`}</p>
+    ))}
+  </div>
+);
+
+class FoodCatalog extends React.Component {
+  render() {
+    const foods = this.props.foods;
+    return (
+      <div>
+        <FoodFilter
+          products={uniqueProductList}
+          categories={uniqueCategoryList}
+          colors={uniqueColorList}
+        />
+
+        <div style={{ paddingTop: "5%" }}>All Products</div>
+        <div className="card-columns">
+          {foods.map(foodItem => (
+            <FoodCard key={foodItem.key} food={foodItem} />
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const FoodCard = props => {
   const { category, name, quantity, weight, description } = props.food;
@@ -57,7 +126,7 @@ const FOODS = [
     key: 1,
     category: "VEGETABLES",
     name: "Tomato",
-    quantity: 2,
+    quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
     color: "Red"
@@ -66,8 +135,8 @@ const FOODS = [
     key: 4,
     category: "FISH",
     name: "Salmon",
-    quantity: 5,
-    weight: "6g",
+    quantity: 10,
+    weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
     color: "Orange"
   },
@@ -75,8 +144,8 @@ const FOODS = [
     key: 2,
     category: "VEGETABLES",
     name: "Cabbage",
-    quantity: 3,
-    weight: "10g",
+    quantity: 10,
+    weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
     color: "Green"
   },
@@ -84,8 +153,8 @@ const FOODS = [
     key: 5,
     category: "VEGETABLES",
     name: "Carrot",
-    quantity: 4,
-    weight: "7g",
+    quantity: 10,
+    weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
     color: "Orange"
   },
@@ -93,8 +162,8 @@ const FOODS = [
     key: 3,
     category: "VEGETABLES",
     name: "Onion",
-    quantity: 4,
-    weight: "5g",
+    quantity: 10,
+    weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
     color: "Pink"
   },
@@ -102,7 +171,7 @@ const FOODS = [
     key: 6,
     category: "MEAT",
     name: "Pork",
-    quantity: 6,
+    quantity: 10,
     weight: "7g",
     description: "The quick brown fox jumps over the lazy dog",
     color: "Pink"
@@ -114,4 +183,7 @@ const uniqueProductList = Array.from(new Set(FOODS.map(x => x.name)));
 const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
 const uniqueColorList = Array.from(new Set(FOODS.map(x => x.color)));
 
-ReactDOM.render(<FoodCatalog foods={FOODS} />, document.getElementById("root"));
+ReactDOM.render(
+  <FoodCatalogViewSelector foods={FOODS} />,
+  document.getElementById("root")
+);
