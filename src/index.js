@@ -127,7 +127,12 @@ const FoodCards = props => {
 };
 
 const MatchingProduct = props => {
-  const { category, name } = props.food;
+  const { category, name, color } = props.food;
+
+  const colorPercentages = color.map(x => ({
+    color: x.toLowerCase(),
+    percent: (1 / color.length).toFixed(2)
+  }));
   return (
     <div style={{ display: "flex" }}>
       <div
@@ -151,13 +156,7 @@ const MatchingProduct = props => {
       </div>
 
       <div style={{ width: "80%", overflow: "visible" }}>
-        <DonutChart
-          colorPercentages={[
-            { color: "red", percent: 0.33 },
-            { color: "purple", percent: 0.33 },
-            { color: "yellow", percent: 0.34 }
-          ]}
-        />
+        <DonutChart colorPercentages={colorPercentages} />
       </div>
     </div>
   );
@@ -218,7 +217,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Green"]
+    color: ["Green", "Purple"]
   },
   {
     key: 5,
@@ -227,7 +226,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Orange"]
+    color: ["Orange", "Yellow", "Purple"]
   },
   {
     key: 3,

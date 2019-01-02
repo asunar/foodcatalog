@@ -8,7 +8,6 @@ const DonutChart = props => {
   }));
 
   const colorScale = props.colorPercentages.map(cp => cp.color);
-
   return (
     <div>
       <svg width="400" height="400">
