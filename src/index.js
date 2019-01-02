@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import FoodFilter from "./components/FoodFilter.js";
-import { VictoryPie, VictoryLabel } from "victory";
+import DonutChart from "./components/DonutChart.js";
 import "./index.css";
 
 class FoodCatalogViewSelector extends React.Component {
@@ -151,29 +151,13 @@ const MatchingProduct = props => {
       </div>
 
       <div style={{ width: "80%", overflow: "visible" }}>
-        <svg width="400" height="400">
-          <VictoryPie
-            standalone={false}
-            width={400}
-            height={400}
-            data={[
-              { x: "38%\ngreen", y: 0.38 },
-              { x: "38%\norange", y: 0.38 },
-              { x: "25%\nred", y: 0.25 }
-            ]}
-            innerRadius={68}
-            labelRadius={100}
-            style={{ labels: { fontSize: 20, fill: "white" } }}
-            colorScale={["green", "orange", "red"]}
-          />
-          <VictoryLabel
-            textAnchor="middle"
-            style={{ fontSize: 20 }}
-            x={200}
-            y={200}
-            text="100%"
-          />
-        </svg>
+        <DonutChart
+          colorPercentages={[
+            { color: "red", percent: 0.33 },
+            { color: "purple", percent: 0.33 },
+            { color: "yellow", percent: 0.34 }
+          ]}
+        />
       </div>
     </div>
   );
