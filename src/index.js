@@ -139,13 +139,15 @@ const MatchingProduct = props => {
         }}
       >
         <h5>{category}</h5>
-        <img
-          src={`/images/${name}.png`}
-          alt={name}
-          className="img-thumbnail"
-          style={{ width: "151px", height: "92px" }}
-        />
-        <p>{name}</p>
+
+        <div style={{ width: "151px", height: "92px" }}>
+          <img
+            src={`/images/${name}.png`}
+            alt={name}
+            className="img-thumbnail"
+          />
+          <p style={{ textAlign: "center" }}>{name}</p>
+        </div>
       </div>
 
       <div style={{ width: "80%", overflow: "visible" }}>
