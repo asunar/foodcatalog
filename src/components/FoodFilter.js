@@ -31,7 +31,6 @@ export default class FoodFilter extends React.Component {
   clearSelection() {
     console.log("Clearing selection");
     this.setState({ selectedFilters: this.getFiltersStartingState() });
-    debugger;
     this.props.filtersUpdated(this.getFiltersStartingState());
   }
 

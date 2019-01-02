@@ -6,27 +6,47 @@ import "./index.css";
 class FoodCatalogViewSelector extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedFilters: this.props.selectedFilters
-    };
+
     this.isFiltered = this.isFiltered.bind(this);
+    this.matchingProducts = this.matchingProducts.bind(this);
   }
+
+  matchingProducts(selectedFilters) {
+    //TODO: Refactor to remove duplication
+    const isProductFilter = selectedFilters.Product.length > 0;
+    const isCategoryFilter = selectedFilters.Category.length > 0;
+    const isColorFilter = selectedFilters.Color.length > 0;
+
+    selectedFilters.Category = selectedFilters.Category.map(x =>
+      x.toLowerCase()
+    );
+
+    selectedFilters.Color = selectedFilters.Color.map(x => x.toLowerCase());
+
+    return this.props.foods.filter(
+      x =>
+        (!isProductFilter || selectedFilters.Product.includes(x.name)) && //name filter
+        (!isCategoryFilter ||
+          selectedFilters.Category.includes(x.category.toLowerCase())) && //category filter
+        (!isColorFilter ||
+          x.color.some(x => selectedFilters.Color.includes(x.toLowerCase()))) // is there any product color that matches one of selected color filters.
+    );
+  }
+
   isFiltered(selectedFilters) {
-    debugger;
     return Object.keys(selectedFilters) //Iterate over each property (Category, Color, Product)
       .map(x => selectedFilters[x]) //Get filter value for each property
       .some(x => x.length > 0); //Check if any filter array is not empty.
   }
 
   render() {
-    const isFiltered = this.isFiltered(this.state.selectedFilters);
+    const isFiltered = this.isFiltered(this.props.selectedFilters);
     if (!isFiltered) {
       return <FoodCards foods={this.props.foods} />;
     } else {
       return (
         <FilteredFoodCatalog
-          matchingProducts={this.props.matchingProducts}
-          filtersUpdated={this.props.filtersUpdated}
+          matchingProducts={this.matchingProducts(this.props.selectedFilters)}
         />
       );
     }
@@ -61,33 +81,10 @@ class FoodCatalog extends React.Component {
     this.state = {
       selectedFilters: this.props.selectedFilters
     };
-    this.matchingProducts = this.matchingProducts.bind(this);
     this.filtersUpdated = this.filtersUpdated.bind(this);
   }
 
-  matchingProducts(selectedFilters) {
-    const isProductFilter = selectedFilters.Product.length > 0;
-    const isCategoryFilter = selectedFilters.Category.length > 0;
-    const isColorFilter = selectedFilters.Color.length > 0;
-
-    selectedFilters.Category = selectedFilters.Category.map(x =>
-      x.toLowerCase()
-    );
-
-    selectedFilters.Color = selectedFilters.Color.map(x => x.toLowerCase());
-
-    return this.props.foods.filter(
-      x =>
-        (!isProductFilter || selectedFilters.Product.includes(x.name)) && //name filter
-        (!isCategoryFilter ||
-          selectedFilters.Category.includes(x.category.toLowerCase())) && //category filter
-        (!isColorFilter ||
-          x.color.some(x => selectedFilters.Color.includes(x.toLowerCase()))) // is there any product color that matches one of selected color filters.
-    );
-  }
-
   filtersUpdated(selectedFilters) {
-    debugger;
     this.setState({ selectedFilters: selectedFilters });
   }
 
@@ -105,8 +102,6 @@ class FoodCatalog extends React.Component {
         <FoodCatalogViewSelector
           foods={this.props.foods}
           selectedFilters={this.state.selectedFilters}
-          matchingProducts={this.matchingProducts(this.state.selectedFilters)}
-          filtersUpdated={this.filtersUpdated}
         />
       </div>
     );
@@ -165,7 +160,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Red"]
+    color: ["Red", "Green"]
   },
   {
     key: 4,
@@ -220,7 +215,6 @@ const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
 const uniqueColorList = Array.from(new Set(FOODS.flatMap(x => x.color)));
 
 ReactDOM.render(
-  //<FoodCatalogViewSelector foods={FOODS} />,
   <FoodCatalog
     foods={FOODS}
     selectedFilters={{ Product: [], Category: [], Color: [] }}
