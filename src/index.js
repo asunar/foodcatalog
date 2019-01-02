@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import FoodFilter from "./components/FoodFilter.js";
+import { VictoryPie, VictoryLabel } from "victory";
 import "./index.css";
 
 class FoodCatalogViewSelector extends React.Component {
@@ -65,10 +66,12 @@ class FilteredFoodCatalog extends React.Component {
   }
 
   render() {
+    const matchingProducts = this.props.matchingProducts;
     return (
       <div>
-        {this.props.matchingProducts.map(x => (
-          <p key={x.name}>{`${x.category + " - " + x.name}`}</p>
+        <div style={{ paddingTop: "5%" }}>Matching Products</div>
+        {matchingProducts.map(mp => (
+          <MatchingProduct key={mp.key} food={mp} />
         ))}
       </div>
     );
@@ -118,6 +121,57 @@ const FoodCards = props => {
         {foods.map(foodItem => (
           <FoodCard key={foodItem.key} food={foodItem} />
         ))}
+      </div>
+    </div>
+  );
+};
+
+const MatchingProduct = props => {
+  const { category, name } = props.food;
+  return (
+    <div style={{ display: "flex" }}>
+      <div
+        style={{
+          borderRightStyle: "solid",
+          borderRightWidth: "thin",
+          borderRightColor: "#eae8e8",
+          width: "20%"
+        }}
+      >
+        <h5>{category}</h5>
+        <img
+          src={`/images/${name}.png`}
+          alt={name}
+          className="img-thumbnail"
+          style={{ width: "151px", height: "92px" }}
+        />
+        <p>{name}</p>
+      </div>
+
+      <div style={{ width: "80%", overflow: "visible" }}>
+        <svg width="400" height="400">
+          <VictoryPie
+            standalone={false}
+            width={400}
+            height={400}
+            data={[
+              { x: "38%\ngreen", y: 0.38 },
+              { x: "38%\norange", y: 0.38 },
+              { x: "25%\nred", y: 0.25 }
+            ]}
+            innerRadius={68}
+            labelRadius={100}
+            style={{ labels: { fontSize: 20, fill: "white" } }}
+            colorScale={["green", "orange", "red"]}
+          />
+          <VictoryLabel
+            textAnchor="middle"
+            style={{ fontSize: 20 }}
+            x={200}
+            y={200}
+            text="100%"
+          />
+        </svg>
       </div>
     </div>
   );
