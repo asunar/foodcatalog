@@ -6,7 +6,7 @@ export default class FoodFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedFilters: this.getFiltersStartingState()
+      selectedFilters: this.props.selectedFilters
     };
     this.filterUpdatedHandler = this.filterUpdatedHandler.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
@@ -25,11 +25,14 @@ export default class FoodFilter extends React.Component {
     currentFilters[title] = selectedFilters;
 
     this.setState({ selectedFilters: currentFilters });
+    this.props.filtersUpdated(currentFilters);
   }
 
   clearSelection() {
     console.log("Clearing selection");
     this.setState({ selectedFilters: this.getFiltersStartingState() });
+    debugger;
+    this.props.filtersUpdated(this.getFiltersStartingState());
   }
 
   render() {

@@ -7,23 +7,62 @@ class FoodCatalogViewSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedFilters: {
-        Product: [],
-        Category: [],
-        Color: ["orange"]
-      }
+      selectedFilters: this.props.selectedFilters
     };
     this.isFiltered = this.isFiltered.bind(this);
-    this.matchingProducts = this.matchingProducts.bind(this);
   }
   isFiltered(selectedFilters) {
+    debugger;
     return Object.keys(selectedFilters) //Iterate over each property (Category, Color, Product)
       .map(x => selectedFilters[x]) //Get filter value for each property
       .some(x => x.length > 0); //Check if any filter array is not empty.
   }
 
-  isFilterTypeSelected(filterType, selectedFilters) {
-    return selectedFilters[filterType].length > 0;
+  render() {
+    const isFiltered = this.isFiltered(this.state.selectedFilters);
+    if (!isFiltered) {
+      return <FoodCards foods={this.props.foods} />;
+    } else {
+      return (
+        <FilteredFoodCatalog
+          matchingProducts={this.props.matchingProducts}
+          filtersUpdated={this.props.filtersUpdated}
+        />
+      );
+    }
+  }
+}
+
+class FilteredFoodCatalog extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.filtersUpdated = this.filtersUpdated.bind(this);
+  }
+
+  filtersUpdated(selectedFilters) {
+    this.props.filtersUpdated(selectedFilters);
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.matchingProducts.map(x => (
+          <p key={x.name}>{`${x.category + " - " + x.name}`}</p>
+        ))}
+      </div>
+    );
+  }
+}
+
+class FoodCatalog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedFilters: this.props.selectedFilters
+    };
+    this.matchingProducts = this.matchingProducts.bind(this);
+    this.filtersUpdated = this.filtersUpdated.bind(this);
   }
 
   matchingProducts(selectedFilters) {
@@ -37,60 +76,57 @@ class FoodCatalogViewSelector extends React.Component {
 
     selectedFilters.Color = selectedFilters.Color.map(x => x.toLowerCase());
 
-    return FOODS.filter(
+    return this.props.foods.filter(
       x =>
         (!isProductFilter || selectedFilters.Product.includes(x.name)) && //name filter
         (!isCategoryFilter ||
           selectedFilters.Category.includes(x.category.toLowerCase())) && //category filter
         (!isColorFilter ||
-          selectedFilters.Color.includes(x.color.toLowerCase()))
+          x.color.some(x => selectedFilters.Color.includes(x.toLowerCase()))) // is there any product color that matches one of selected color filters.
     );
   }
 
-  render() {
-    const isFiltered = this.isFiltered(this.state.selectedFilters);
-
-    if (!isFiltered) {
-      return <FoodCatalog foods={FOODS} />;
-    } else {
-      return (
-        <FilteredFoodCatalog
-          matchingProducts={this.matchingProducts(this.state.selectedFilters)}
-        />
-      );
-    }
+  filtersUpdated(selectedFilters) {
+    debugger;
+    this.setState({ selectedFilters: selectedFilters });
   }
-}
 
-const FilteredFoodCatalog = props => (
-  <div>
-    {props.matchingProducts.map(x => (
-      <p key={x.name}>{`${x.category + " - " + x.name}`}</p>
-    ))}
-  </div>
-);
-
-class FoodCatalog extends React.Component {
   render() {
-    const foods = this.props.foods;
     return (
       <div>
         <FoodFilter
           products={uniqueProductList}
           categories={uniqueCategoryList}
           colors={uniqueColorList}
+          filtersUpdated={this.filtersUpdated}
+          selectedFilters={this.state.selectedFilters}
         />
 
-        <div style={{ paddingTop: "5%" }}>All Products</div>
-        <div className="card-columns">
-          {foods.map(foodItem => (
-            <FoodCard key={foodItem.key} food={foodItem} />
-          ))}
-        </div>
+        <FoodCatalogViewSelector
+          foods={this.props.foods}
+          selectedFilters={this.state.selectedFilters}
+          matchingProducts={this.matchingProducts(this.state.selectedFilters)}
+          filtersUpdated={this.filtersUpdated}
+        />
       </div>
     );
   }
 }
+
+const FoodCards = props => {
+  const foods = props.foods;
+
+  return (
+    <div>
+      <div style={{ paddingTop: "5%" }}>All Products</div>
+      <div className="card-columns">
+        {foods.map(foodItem => (
+          <FoodCard key={foodItem.key} food={foodItem} />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const FoodCard = props => {
   const { category, name, quantity, weight, description } = props.food;
@@ -129,7 +165,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: "Red"
+    color: ["Red"]
   },
   {
     key: 4,
@@ -138,7 +174,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: "Orange"
+    color: ["Orange"]
   },
   {
     key: 2,
@@ -147,7 +183,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: "Green"
+    color: ["Green"]
   },
   {
     key: 5,
@@ -156,7 +192,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: "Orange"
+    color: ["Orange"]
   },
   {
     key: 3,
@@ -165,7 +201,7 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: "Pink"
+    color: ["Pink"]
   },
   {
     key: 6,
@@ -174,16 +210,20 @@ const FOODS = [
     quantity: 10,
     weight: "7g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: "Pink"
+    color: ["Pink"]
   }
 ];
 
 // TODO: Optimize (iterate once)
 const uniqueProductList = Array.from(new Set(FOODS.map(x => x.name)));
 const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
-const uniqueColorList = Array.from(new Set(FOODS.map(x => x.color)));
+const uniqueColorList = Array.from(new Set(FOODS.flatMap(x => x.color)));
 
 ReactDOM.render(
-  <FoodCatalogViewSelector foods={FOODS} />,
+  //<FoodCatalogViewSelector foods={FOODS} />,
+  <FoodCatalog
+    foods={FOODS}
+    selectedFilters={{ Product: [], Category: [], Color: [] }}
+  />,
   document.getElementById("root")
 );
