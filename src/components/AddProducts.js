@@ -1,25 +1,34 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import CustomCheckbox from "./CustomCheckbox.js";
 import QuantityPicker from "./QuantityPicker.js";
+import SimpleReactFileUpload from "./react-file-upload.js";
+import { noImageDataUrl } from "../ImageDataUrls.js"; //import UploadButtonStyles from "react-upload-button-v2/build/styles.css";
 
 class AddProducts extends Component {
   constructor(props) {
     super(props);
+    debugger;
     this.state = {
       name: "",
       category: "-1",
       weight: "",
       quantity: 0,
       description: "",
-      colors: []
+      color: [],
+      imageDataUrl: noImageDataUrl,
+      redirectMe: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
+  }
+
+  fileSelectedHandler(e) {
+    this.setState({ imageDataUrl: e.target.result });
   }
 
   handleSubmit(event) {
-    debugger;
     event.preventDefault();
     const data = new FormData(event.target);
     let colors = [];
@@ -35,12 +44,17 @@ class AddProducts extends Component {
       quantity: data.get("quantity"),
       weight: data.get("weight"),
       description: data.get("description"),
-      colors: colors
+      color: colors,
+      imageDataUrl: this.state.imageDataUrl
     };
     this.props.addProductHandler(newProduct);
+    this.setState({ redirectMe: true });
   }
 
   render() {
+    if (this.state.redirectMe) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
@@ -87,7 +101,18 @@ class AddProducts extends Component {
           />
           <div className="row">
             <div className="col-4">
-              <div>image</div>
+              <div>
+                <img
+                  style={{ width: "100%" }}
+                  src={this.state.imageDataUrl}
+                  alt="No Image"
+                />
+              </div>
+              <div>
+                <SimpleReactFileUpload
+                  fileSelectedHandler={this.fileSelectedHandler}
+                />
+              </div>
             </div>
             <div className="col">
               <div>

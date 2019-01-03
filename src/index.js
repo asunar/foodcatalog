@@ -5,6 +5,14 @@ import FoodFilter from "./components/FoodFilter.js";
 import DonutChart from "./components/DonutChart.js";
 import AddProducts from "./components/AddProducts.js";
 import "./index.css";
+import {
+  tomatoDataUrl,
+  cabbageDataUrl,
+  onionDataUrl,
+  salmonDataUrl,
+  carrotDataUrl,
+  porkDataUrl
+} from "./ImageDataUrls.js";
 
 class FoodCatalogViewSelector extends React.Component {
   constructor(props) {
@@ -129,7 +137,7 @@ const FoodCards = props => {
 };
 
 const MatchingProduct = props => {
-  const { category, name, color } = props.food;
+  const { category, name, color, imageDataUrl } = props.food;
 
   const colorPercentages = color.map(x => ({
     color: x.toLowerCase(),
@@ -148,11 +156,7 @@ const MatchingProduct = props => {
         <h5>{category}</h5>
 
         <div style={{ width: "151px", height: "92px" }}>
-          <img
-            src={`/images/${name}.png`}
-            alt={name}
-            className="img-thumbnail"
-          />
+          <img src={imageDataUrl} alt={name} className="img-thumbnail" />
           <p style={{ textAlign: "center" }}>{name}</p>
         </div>
       </div>
@@ -165,10 +169,18 @@ const MatchingProduct = props => {
 };
 
 const FoodCard = props => {
-  const { category, name, quantity, weight, description } = props.food;
+  const {
+    category,
+    name,
+    quantity,
+    weight,
+    description,
+    imageDataUrl
+  } = props.food;
   return (
     <div className="card">
-      <img src={`/images/${name}.png`} alt={name} className="card-img-top" />
+      {/*<img src={`/images/${name}.png`} alt={name} className="card-img-top" /> */}
+      <img src={imageDataUrl} alt={name} className="card-img-top" />
       <div className="card-body foodCard">
         <span className="badge badge-pill badge-primary category">
           {category}
@@ -250,42 +262,66 @@ const SideBar = props => {
   );
 };
 
-const App = () => {
-  function addProductHandler(product) {
-    debugger;
-    let nextKey = Math.max.apply(null, FOODS.map(x => x.key)) + 1;
-    product.key = nextKey;
-    FOODS.push(product);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      foods: null
+    };
+
+    this.addProductHandler = this.addProductHandler.bind(this);
   }
-  return (
-    <Router>
-      <Root>
-        <SideBar />
-        <ContentArea>
-          <div
-            style={{
-              backgroundColor: "rgb(243, 239, 239)",
-              padding: "3% 8% 3% 8%"
-            }}
-          >
-            <Route exact={true} path="/" component={Dashboard} />
-            <Route
-              path="/addProducts"
-              render={props => (
-                <AddProducts
-                  categories={uniqueCategoryList}
-                  colors={uniqueColorList}
-                  addProductHandler={addProductHandler}
-                  {...props}
-                />
-              )}
-            />
-          </div>
-        </ContentArea>
-      </Root>
-    </Router>
-  );
-};
+
+  componentDidMount() {
+    this.setState({ foods: FOODS });
+    /*
+can call a remote api like this
+    fetch('https://api.mydomain.com')
+      .then(response => response.json())
+      .then(data => this.setState({ data }));
+*/
+  }
+
+  addProductHandler(product) {
+    let nextKey = Math.max.apply(null, this.state.foods.map(x => x.key)) + 1;
+    product.key = nextKey;
+    let foods = this.state.foods;
+    foods.push(product);
+    this.setState({ foods: foods });
+  }
+
+  render() {
+    return (
+      <Router>
+        <Root>
+          <SideBar />
+          <ContentArea>
+            <div
+              style={{
+                backgroundColor: "rgb(243, 239, 239)",
+                padding: "3% 8% 3% 8%"
+              }}
+            >
+              <Route exact={true} path="/" component={Dashboard} />
+              <Route
+                path="/addProducts"
+                render={props => (
+                  <AddProducts
+                    categories={uniqueCategoryList}
+                    colors={uniqueColorList}
+                    addProductHandler={this.addProductHandler}
+                    {...props}
+                  />
+                )}
+              />
+            </div>
+          </ContentArea>
+        </Root>
+      </Router>
+    );
+  }
+}
 
 const Root = props => (
   <div
@@ -327,7 +363,8 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Red", "Green"]
+    color: ["Red", "Green"],
+    imageDataUrl: tomatoDataUrl
   },
   {
     key: 4,
@@ -336,7 +373,8 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Orange"]
+    color: ["Orange"],
+    imageDataUrl: salmonDataUrl
   },
   {
     key: 2,
@@ -345,7 +383,8 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Green", "Purple"]
+    color: ["Green", "Purple"],
+    imageDataUrl: cabbageDataUrl
   },
   {
     key: 5,
@@ -354,7 +393,8 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Orange", "Yellow", "Purple"]
+    color: ["Orange", "Yellow", "Purple"],
+    imageDataUrl: carrotDataUrl
   },
   {
     key: 3,
@@ -363,7 +403,8 @@ const FOODS = [
     quantity: 10,
     weight: "3g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Pink"]
+    color: ["Pink"],
+    imageDataUrl: onionDataUrl
   },
   {
     key: 6,
@@ -372,7 +413,8 @@ const FOODS = [
     quantity: 10,
     weight: "7g",
     description: "The quick brown fox jumps over the lazy dog",
-    color: ["Pink"]
+    color: ["Pink"],
+    imageDataUrl: porkDataUrl
   }
 ];
 
