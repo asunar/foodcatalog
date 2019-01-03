@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import UniversalRouter from "universal-router";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import FoodFilter from "./components/FoodFilter.js";
 import DonutChart from "./components/DonutChart.js";
 import "./index.css";
@@ -197,12 +197,13 @@ const SideBar = props => {
   return (
     <div
       style={{
+        width: "15vw",
         background: "rgb(31, 70, 106)",
-        position: "absolute",
-        top: 0,
-        bottom: 0,
-        color: "white"
+        color: "white",
+        height: "100vh",
+        overflow: "auto"
       }}
+      {...props}
     >
       <div
         style={{
@@ -217,17 +218,19 @@ const SideBar = props => {
           style={{ textAlign: "center" }}
         />
         <div style={{ paddingTop: "15%", paddingBottom: "7%" }}>
-          <button
-            className="btn btn-primary"
-            type="button"
-            style={{
-              backgroundColor: "white",
-              color: "rgb(32, 156, 234)",
-              fontWeight: "700"
-            }}
-          >
-            ADD PRODUCTS
-          </button>
+          <Link to="/addProducts">
+            <button
+              className="btn btn-primary"
+              type="button"
+              style={{
+                backgroundColor: "white",
+                color: "rgb(32, 156, 234)",
+                fontWeight: "700"
+              }}
+            >
+              ADD PRODUCTS
+            </button>
+          </Link>
         </div>
         <hr style={{ borderColor: "inherit", color: "rgb(147, 166, 183)" }} />
         <ul style={{ listStyleType: "none", padding: 10, textAlign: "left" }}>
@@ -242,23 +245,55 @@ const SideBar = props => {
   );
 };
 
-const sideBarWidth = "250px";
-const App = props => (
+const App = () => {
+  return (
+    <Router>
+      <Root>
+        <SideBar />
+        <ContentArea>
+          <div
+            style={{
+              backgroundColor: "rgb(243, 239, 239)",
+              padding: "3% 8% 3% 8%"
+            }}
+          >
+            <Route exact={true} path="/" component={Dashboard} />
+            <Route path="/addProducts" component={AddProducts} />
+          </div>
+        </ContentArea>
+      </Root>
+    </Router>
+  );
+};
+
+const Root = props => (
+  <div
+    style={{
+      display: "flex"
+    }}
+    {...props}
+  />
+);
+
+const ContentArea = props => (
+  <div
+    style={{
+      flex: 1,
+      height: "100vh",
+      overflow: "auto"
+    }}
+  >
+    <div {...props} />
+  </div>
+);
+
+const Dashboard = props => (
   <div style={{ backgroundColor: "rgb(243, 239, 239)" }}>
     <div>
-      <div
-        style={{
-          width: sideBarWidth
-        }}
-      >
-        <SideBar />
-      </div>
-      <div style={{ marginLeft: sideBarWidth, padding: "3% 8% 3% 8%" }}>
-        <FoodCatalog
-          foods={FOODS}
-          selectedFilters={{ Product: [], Category: [], Color: [] }}
-        />
-      </div>
+      <FoodCatalog
+        foods={FOODS}
+        selectedFilters={{ Product: [], Category: [], Color: [] }}
+      />
     </div>
   </div>
 );
@@ -325,27 +360,8 @@ const uniqueProductList = Array.from(new Set(FOODS.map(x => x.name)));
 const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
 const uniqueColorList = Array.from(new Set(FOODS.flatMap(x => x.color)));
 
-const routes = [
-  {
-    path: "/",
-    name: "dashboard",
-    action: () => <App />
-  },
-  {
-    path: "/",
-    name: "addProducts",
-    action: () => <App />
-  }
-];
+const AddProducts = () => {
+  return <div>Add products page goes here</div>;
+};
 
-const router = new UniversalRouter(routes);
-
-router.resolve("/").then(component => {
-  ReactDOM.render(
-    /*<FoodCatalog
-    foods={FOODS}
-    selectedFilters={{ Product: [], Category: [], Color: [] }}
-  />*/ component,
-    document.getElementById("root")
-  );
-});
+ReactDOM.render(<App />, document.getElementById("root"));

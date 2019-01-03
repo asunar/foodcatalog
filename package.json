@@ -6,8 +6,8 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-picky": "^4.1.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.2",
-    "universal-router": "^7.0.0",
     "victory": "^31.0.2"
   },
   "scripts": {
