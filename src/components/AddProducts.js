@@ -37,7 +37,7 @@ class AddProducts extends Component {
       description: data.get("description"),
       colors: colors
     };
-    console.log(newProduct);
+    this.props.addProductHandler(newProduct);
   }
 
   render() {

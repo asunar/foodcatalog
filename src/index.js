@@ -251,6 +251,12 @@ const SideBar = props => {
 };
 
 const App = () => {
+  function addProductHandler(product) {
+    debugger;
+    let nextKey = Math.max.apply(null, FOODS.map(x => x.key)) + 1;
+    product.key = nextKey;
+    FOODS.push(product);
+  }
   return (
     <Router>
       <Root>
@@ -269,6 +275,7 @@ const App = () => {
                 <AddProducts
                   categories={uniqueCategoryList}
                   colors={uniqueColorList}
+                  addProductHandler={addProductHandler}
                   {...props}
                 />
               )}
