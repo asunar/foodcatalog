@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import CustomCheckbox from "./CustomCheckbox.js";
+import QuantityPicker from "./QuantityPicker.js";
 
 class AddProducts extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class AddProducts extends Component {
     const newProduct = {
       name: data.get("name"),
       category: data.get("category"),
+      quantity: data.get("quantity"),
       weight: data.get("weight"),
       description: data.get("description"),
       colors: colors
@@ -112,6 +114,7 @@ class AddProducts extends Component {
                       <option key={c}>{c}</option>
                     ))}
                   </select>
+                  <QuantityPicker />
                   <input
                     type="text"
                     name="weight"
