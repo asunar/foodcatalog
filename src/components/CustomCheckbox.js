@@ -6,7 +6,7 @@ const CustomCheckbox = props => {
     <div>
       <label className="checkboxContainer">
         <span style={{ color: "#1f466a" }}>{props.label}</span>
-        <input type="checkbox" />
+        <input type="checkbox" name={props.label} />
         <span className="checkmark" />
       </label>
     </div>
