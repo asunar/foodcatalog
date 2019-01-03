@@ -1,3 +1,10 @@
+/* Prevent shifting left when scrollbar appears
+Keeps filter results stationary when adding/removing filters
+*/
+html {
+    overflow-y: scroll;
+  }
+
 .category {
     background-color: rgb(31, 70, 106); /* TODO: Sass variables */
     padding: .6em;
