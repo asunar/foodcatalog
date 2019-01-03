@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import FoodFilter from "./components/FoodFilter.js";
 import DonutChart from "./components/DonutChart.js";
 import "./index.css";
+import CustomCheckbox from "./components/CustomCheckbox.js";
 
 class FoodCatalogViewSelector extends React.Component {
   constructor(props) {
@@ -234,7 +235,11 @@ const SideBar = props => {
         </div>
         <hr style={{ borderColor: "inherit", color: "rgb(147, 166, 183)" }} />
         <ul style={{ listStyleType: "none", padding: 10, textAlign: "left" }}>
-          <li style={{ marginBottom: "10%" }}>DASHBOARD</li>
+          <li style={{ marginBottom: "10%" }}>
+            <Link to="/" style={{ color: "inherit" }}>
+              DASHBOARD
+            </Link>
+          </li>
           <li style={{ marginBottom: "10%", color: "rgb(147, 166, 183)" }}>
             PRODUCTS
           </li>
@@ -360,8 +365,132 @@ const uniqueProductList = Array.from(new Set(FOODS.map(x => x.name)));
 const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
 const uniqueColorList = Array.from(new Set(FOODS.flatMap(x => x.color)));
 
-const AddProducts = () => {
-  return <div>Add products page goes here</div>;
+const AddProducts = props => {
+  const defaultValue = -1;
+  return (
+    <div className="container">
+      <div className="row">
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <div
+            className="col"
+            style={{ fontSize: "x-large", textDecoration: "none" }}
+          >
+            &lt; Back
+          </div>
+        </Link>
+      </div>
+
+      <div className="row">
+        <div
+          className="col"
+          style={{ fontSize: "xx-large", fontWeight: "bold" }}
+        >
+          ADD PRODUCT
+        </div>
+        <div className="col" style={{ textAlign: "right" }}>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <button
+              type="button"
+              className="btn"
+              style={{
+                backgroundColor: "orange",
+                color: "white",
+                fontWeight: "700"
+              }}
+            >
+              SAVE PRODUCT
+            </button>
+          </Link>
+        </div>
+      </div>
+      <hr
+        style={{
+          borderWidth: "thick",
+          borderColor: "inherit",
+          color: "black"
+        }}
+      />
+      <div className="row">
+        <div className="col-4">
+          <div>image</div>
+        </div>
+        <div className="col">
+          <div>
+            <div className="form-group">
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                id="name"
+                placeholder="Product"
+                defaultValue=""
+              />
+              <select
+                className="form-control"
+                name="dropdown-test"
+                placeholder="Category"
+                defaultValue={defaultValue}
+              >
+                <option value={-1} disabled>
+                  Category
+                </option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+              <input
+                type="text"
+                name="weight"
+                className="form-control"
+                id="weight"
+                placeholder="Weight"
+                defaultValue=""
+              />
+              <input
+                type="text"
+                name="description"
+                className="form-control"
+                id="description"
+                placeholder="Description"
+                defaultValue=""
+              />
+
+              <div className="container">
+                <div className="row" style={{ paddingBottom: "3%" }}>
+                  Colors
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <CustomCheckbox label={"Red"} />
+                  </div>
+                  <div className="col">
+                    <CustomCheckbox label={"Orange"} />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <CustomCheckbox label={"Green"} />
+                  </div>
+                  <div className="col">
+                    <CustomCheckbox label={"Yellow"} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr
+        style={{
+          borderWidth: "thick",
+          borderColor: "inherit",
+          color: "black"
+        }}
+      />
+    </div>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));
