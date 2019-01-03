@@ -36,7 +36,7 @@ export default class FoodFilter extends React.Component {
 
   render() {
     return (
-      <div style={{ paddingTop: "3%" }}>
+      <div>
         <div
           style={{
             display: "flex",

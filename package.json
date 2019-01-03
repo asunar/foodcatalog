@@ -7,6 +7,7 @@
     "react-dom": "^16.7.0",
     "react-picky": "^4.1.0",
     "react-scripts": "^2.1.2",
+    "universal-router": "^7.0.0",
     "victory": "^31.0.2"
   },
   "scripts": {
@@ -23,5 +24,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "webpack-dev-server": "^3.1.14"
+  }
 }

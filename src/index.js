@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import UniversalRouter from "universal-router";
 import FoodFilter from "./components/FoodFilter.js";
 import DonutChart from "./components/DonutChart.js";
 import "./index.css";
@@ -191,6 +192,77 @@ const FoodCard = props => {
     </div>
   );
 };
+
+const SideBar = props => {
+  return (
+    <div
+      style={{
+        background: "rgb(31, 70, 106)",
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        color: "white"
+      }}
+    >
+      <div
+        style={{
+          textAlign: "center",
+          fontWeight: "500",
+          padding: "30px"
+        }}
+      >
+        <img
+          src="/images/shoppingBag.png"
+          alt="Shopping Bag"
+          style={{ textAlign: "center" }}
+        />
+        <div style={{ paddingTop: "15%", paddingBottom: "7%" }}>
+          <button
+            className="btn btn-primary"
+            type="button"
+            style={{
+              backgroundColor: "white",
+              color: "rgb(32, 156, 234)",
+              fontWeight: "700"
+            }}
+          >
+            ADD PRODUCTS
+          </button>
+        </div>
+        <hr style={{ borderColor: "inherit", color: "rgb(147, 166, 183)" }} />
+        <ul style={{ listStyleType: "none", padding: 10, textAlign: "left" }}>
+          <li style={{ marginBottom: "10%" }}>DASHBOARD</li>
+          <li style={{ marginBottom: "10%", color: "rgb(147, 166, 183)" }}>
+            PRODUCTS
+          </li>
+          <li style={{ marginBottom: "10%" }}>REPORTS</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const sideBarWidth = "250px";
+const App = props => (
+  <div style={{ backgroundColor: "rgb(243, 239, 239)" }}>
+    <div>
+      <div
+        style={{
+          width: sideBarWidth
+        }}
+      >
+        <SideBar />
+      </div>
+      <div style={{ marginLeft: sideBarWidth, padding: "3% 8% 3% 8%" }}>
+        <FoodCatalog
+          foods={FOODS}
+          selectedFilters={{ Product: [], Category: [], Color: [] }}
+        />
+      </div>
+    </div>
+  </div>
+);
+
 const FOODS = [
   {
     key: 1,
@@ -253,10 +325,27 @@ const uniqueProductList = Array.from(new Set(FOODS.map(x => x.name)));
 const uniqueCategoryList = Array.from(new Set(FOODS.map(x => x.category)));
 const uniqueColorList = Array.from(new Set(FOODS.flatMap(x => x.color)));
 
-ReactDOM.render(
-  <FoodCatalog
+const routes = [
+  {
+    path: "/",
+    name: "dashboard",
+    action: () => <App />
+  },
+  {
+    path: "/",
+    name: "addProducts",
+    action: () => <App />
+  }
+];
+
+const router = new UniversalRouter(routes);
+
+router.resolve("/").then(component => {
+  ReactDOM.render(
+    /*<FoodCatalog
     foods={FOODS}
     selectedFilters={{ Product: [], Category: [], Color: [] }}
-  />,
-  document.getElementById("root")
-);
+  />*/ component,
+    document.getElementById("root")
+  );
+});
