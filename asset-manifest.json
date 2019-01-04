@@ -1,15 +1,15 @@
 {
-  "main.css": "/static/css/main.fdf72439.chunk.css",
-  "main.js": "/static/js/main.668c65d4.chunk.js",
-  "main.js.map": "/static/js/main.668c65d4.chunk.js.map",
-  "static/css/1.ff00d2ce.chunk.css": "/static/css/1.ff00d2ce.chunk.css",
-  "static/js/1.572947d9.chunk.js": "/static/js/1.572947d9.chunk.js",
-  "static/js/1.572947d9.chunk.js.map": "/static/js/1.572947d9.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
-  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/css/main.fdf72439.chunk.css.map": "/static/css/main.fdf72439.chunk.css.map",
-  "static/css/1.ff00d2ce.chunk.css.map": "/static/css/1.ff00d2ce.chunk.css.map",
-  "index.html": "/index.html",
-  "precache-manifest.8fc77b2f4936fb27f922b7ff161a93cb.js": "/precache-manifest.8fc77b2f4936fb27f922b7ff161a93cb.js",
-  "service-worker.js": "/service-worker.js"
+  "main.css": "/foodcatalog/static/css/main.fdf72439.chunk.css",
+  "main.js": "/foodcatalog/static/js/main.668c65d4.chunk.js",
+  "main.js.map": "/foodcatalog/static/js/main.668c65d4.chunk.js.map",
+  "static/css/1.ff00d2ce.chunk.css": "/foodcatalog/static/css/1.ff00d2ce.chunk.css",
+  "static/js/1.572947d9.chunk.js": "/foodcatalog/static/js/1.572947d9.chunk.js",
+  "static/js/1.572947d9.chunk.js.map": "/foodcatalog/static/js/1.572947d9.chunk.js.map",
+  "runtime~main.js": "/foodcatalog/static/js/runtime~main.1fc63f06.js",
+  "runtime~main.js.map": "/foodcatalog/static/js/runtime~main.1fc63f06.js.map",
+  "static/css/1.ff00d2ce.chunk.css.map": "/foodcatalog/static/css/1.ff00d2ce.chunk.css.map",
+  "static/css/main.fdf72439.chunk.css.map": "/foodcatalog/static/css/main.fdf72439.chunk.css.map",
+  "index.html": "/foodcatalog/index.html",
+  "precache-manifest.0a3266007a538bb8f07700b56449a0ad.js": "/foodcatalog/precache-manifest.0a3266007a538bb8f07700b56449a0ad.js",
+  "service-worker.js": "/foodcatalog/service-worker.js"
 }
