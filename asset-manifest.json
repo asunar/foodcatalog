@@ -1,0 +1,15 @@
+{
+  "main.css": "/foodcatalog/static/css/main.70e4de0a.chunk.css",
+  "main.js": "/foodcatalog/static/js/main.b164f98c.chunk.js",
+  "main.js.map": "/foodcatalog/static/js/main.b164f98c.chunk.js.map",
+  "static/css/1.b3e6e6ff.chunk.css": "/foodcatalog/static/css/1.b3e6e6ff.chunk.css",
+  "static/js/1.7a60306f.chunk.js": "/foodcatalog/static/js/1.7a60306f.chunk.js",
+  "static/js/1.7a60306f.chunk.js.map": "/foodcatalog/static/js/1.7a60306f.chunk.js.map",
+  "runtime~main.js": "/foodcatalog/static/js/runtime~main.1fc63f06.js",
+  "runtime~main.js.map": "/foodcatalog/static/js/runtime~main.1fc63f06.js.map",
+  "static/css/main.70e4de0a.chunk.css.map": "/foodcatalog/static/css/main.70e4de0a.chunk.css.map",
+  "static/css/1.b3e6e6ff.chunk.css.map": "/foodcatalog/static/css/1.b3e6e6ff.chunk.css.map",
+  "index.html": "/foodcatalog/index.html",
+  "precache-manifest.3991cf4be51aa6c3a90f9fa488ddcfb7.js": "/foodcatalog/precache-manifest.3991cf4be51aa6c3a90f9fa488ddcfb7.js",
+  "service-worker.js": "/foodcatalog/service-worker.js"
+}
